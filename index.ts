@@ -1,6 +1,11 @@
-import {is, isArray, isFunction, isMergeable, isString} from "../is-fns";
-import {anyObject, getIn, objKeys, objKeysNSymb, setIn, PathElement} from "../object-fns";
+import {is, isArray, isFunction, isMergeable, isString} from "is-fns";
+import { getIn, objKeys, objKeysNSymb, setIn, PathElement} from "objects-fns";
 
+interface anyObject {
+  [key: string]: any;
+
+  [key: number]: any;
+}
 
 interface MergeStateResult {
   state: any,

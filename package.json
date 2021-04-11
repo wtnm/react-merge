@@ -23,6 +23,6 @@
   "homepage": "https://github.com/wtnm/react-merge#readme",
   "dependencies": {
     "is-fns": "^1.0.0",
-    "objects-fns": "^1.0.0"
+    "objects-fns": "^1.0.1"
   }
 }

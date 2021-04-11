@@ -1,0 +1,28 @@
+{
+  "name": "react-merge",
+  "version": "1.0.0",
+  "description": "function that merge 2 (or more) objects in a react-way",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wtnm/react-merge.git"
+  },
+  "keywords": [
+    "merge",
+    "objects",
+    "react"
+  ],
+  "author": "Antonov Andrew <wtnm@rambler.ru> (https://github.com/wtnm)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wtnm/react-merge/issues"
+  },
+  "homepage": "https://github.com/wtnm/react-merge#readme",
+  "dependencies": {
+    "is-fns": "^1.0.0",
+    "objects-fns": "^1.0.0"
+  }
+}

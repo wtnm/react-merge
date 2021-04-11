@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "commonjs",
+    "jsx": "react",
+    "allowJs": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "pretty": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "strictNullChecks": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ],
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "*"
+      ]
+    }
+  },
+  "include": [
+    "./**/*",
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": [
+      "./**/*"
+    ]
+  },
+  "exclude": [
+    ".git",
+    ".happypack",
+    "dist",
+    "docs",
+    "config",
+    "build"
+  ]
+}

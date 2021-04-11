@@ -56,7 +56,7 @@ If `objectA` is array and `objectB` is not array then the result is array with p
 #### merge.all(objectA: any, objectsB: any[], options: MergeOptions)
 Merges `objectA` with `objectsB` array.
 
-##Examples: 
+## Examples: 
 
 ##### merge array with object
 ```

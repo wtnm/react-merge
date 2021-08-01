@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "pretty": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": true,
@@ -34,17 +34,9 @@
   "include": [
     "./**/*",
   ],
-  "awesomeTypescriptLoaderOptions": {
-    "reportFiles": [
-      "./**/*"
-    ]
-  },
   "exclude": [
+    "node_modules",
     ".git",
-    ".happypack",
-    "dist",
-    "docs",
-    "config",
-    "build"
+    "dist"
   ]
 }

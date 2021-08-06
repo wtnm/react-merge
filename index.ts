@@ -1,11 +1,5 @@
 import {is, isArray, isFunction, isMergeable, isString} from "is-fns";
-import { getIn, objKeys, objKeysNSymb, setIn, PathElement} from "objects-fns";
-
-interface anyObject {
-  [key: string]: any;
-
-  [key: number]: any;
-}
+import { getIn, objKeys, objKeysNSymb, setIn, PathElement, anyObject} from "objects-fns";
 
 interface MergeStateResult {
   state: any,
@@ -27,7 +21,6 @@ export type replaceType = { [key: string]: boolean | replaceType } | boolean | (
 
 function mergeState(state: any, source: any, options: MergeOptions = {}): MergeStateResult {
   const fn = options.noSymbol ? objKeys : objKeysNSymb;
-  // let arrayMergeFn: any = false;
   let {delSymbol, del, diff, replace, arrays, path} = options;
   if (path) {
     if (isString(path)) path = path.split('/');
@@ -80,7 +73,6 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
           changes[key] = delSymbol;
       });
     }
-
 
     srcKeys.forEach(key => {
       if (del && source[key] === delSymbol) {

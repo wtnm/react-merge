@@ -1,6 +1,6 @@
 {
   "name": "react-merge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "function that merge 2 (or more) objects in a react-way",
   "main": "dist/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/wtnm/react-merge#readme",
   "dependencies": {
-    "is-fns": "^1.0.0",
-    "objects-fns": "^1.0.1"
+    "is-fns": "^1.2.0",
+    "objects-fns": "^2.0.0"
   }
 }

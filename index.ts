@@ -1,5 +1,33 @@
-import {is, isArray, isFunction, isMergeable, isString} from "is-fns";
-import { getIn, objKeys, objKeysNSymb, setIn, PathElement, anyObject} from "objects-fns";
+import isFunction from "lodash/isFunction";
+import isArray from "lodash/isArray";
+import isString from "lodash/isString";
+import getIn from "lodash/get";
+import setIn from "lodash/set";
+import isMergeableObject from "is-mergeable-object";
+
+function is(x: any, y: any) {
+  // SameValue algorithm
+  if (x === y) { // Steps 1-5, 7-10
+    // Steps 6.b-6.e: +0 != -0
+    return x !== 0 || 1 / x === 1 / y;
+  } else {
+    // Step 6.a: NaN == NaN
+    return x !== x && y !== y;
+  }
+}
+
+export interface anyObject {
+  [key: string]: any;
+
+  [key: number]: any;
+}
+
+export declare type PathElement = string | number | symbol;
+
+const objKeys = Object.keys;
+
+const objKeysNSymb = (obj: any): any[] => (objKeys(obj) as any[]).concat(Object.getOwnPropertySymbols(obj));
+
 
 interface MergeStateResult {
   state: any,
@@ -7,7 +35,7 @@ interface MergeStateResult {
 }
 
 export interface MergeOptions {
-  path?: PathElement[]; // path in first object that should be merged with second object
+  path?: PathElement[] | string; // path in first object that should be merged with second object
   replace?: replaceType; // force replace for mergeable object instead of merge, can be boolean, object with boolean props or a function of following type (path: any[], objectA: anyObject, objectB: anyObject) => boolean
   arrays?: (path: PathElement[], arrayA: any[], arrayB: any[]) => any[]; // function to merge arrays
   diff?: boolean; // if true then first object is changed in the way to be deeply equal to the second
@@ -21,30 +49,30 @@ export type replaceType = { [key: string]: boolean | replaceType } | boolean | (
 
 function mergeState(state: any, source: any, options: MergeOptions = {}): MergeStateResult {
   const fn = options.noSymbol ? objKeys : objKeysNSymb;
-  let {delSymbol, del, diff, replace, arrays, path} = options;
+  let { delSymbol, del, diff, replace, arrays, path } = options;
   if (path) {
-    if (isString(path)) path = path.split('/');
-    source = setIn({}, source, path);
+    if (isString(path)) path = (path as string).split('/');
+    source = setIn({}, path, source);
     if (replace && !isFunction(replace))
-      replace = setIn({}, replace, path);
+      replace = setIn({}, path, replace);
   }
   let forceReplace: any = replace;
   if (typeof forceReplace !== 'function') {
-    if (!isMergeable(replace)) forceReplace = () => false;
+    if (!isMergeableObject(replace)) forceReplace = () => false;
     else forceReplace = (path: any) => getIn(replace, path)
   }
-  if (replace === true || forceReplace([], state, source) === true) return {state: source, changes: state !== source ? source : undefined};
+  if (replace === true || forceReplace([], state, source) === true) return { state: source, changes: state !== source ? source : undefined };
   if (!isFunction(arrays)) arrays = undefined;
 
   function recusion(state: any, source: any, track: any[] = []): MergeStateResult {
     const changes: any = {};
     const isSourceArray = isArray(source);
-    if (!isMergeable(state)) {
+    if (!isMergeableObject(state)) {
       state = isSourceArray ? [] : {};  // return only elements
       if (isArray(state)) changes.length = 0;
     }
     const isStateArray = isArray(state);
-    if (!isMergeable(source)) return {state};  // merge only mergeable elements, may be throw here
+    if (!isMergeableObject(source)) return { state };  // merge only mergeable elements, may be throw here
 
     if (isStateArray && isSourceArray) {
       if (arrays) source = arrays(track, state, source);
@@ -54,10 +82,10 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
     let stateKeys = fn(state);
     if (stateKeys.length == 0 && !del) {
       if (!isStateArray && !isSourceArray)
-        return fn(source).length ? {state: source, changes: source} : {state};
+        return fn(source).length ? { state: source, changes: source } : { state };
       if (isStateArray && isSourceArray) {
-        if (state.length == source.length && source.length == 0) return {state};
-        return (fn(source).length || source.length !== state.length) ? {state: source, changes: source} : {state};
+        if (state.length == source.length && source.length == 0) return { state };
+        return (fn(source).length || source.length !== state.length) ? { state: source, changes: source } : { state };
       }
     }
 
@@ -79,7 +107,7 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
         if (state.hasOwnProperty(key)) changes[key] = delSymbol;
       } else {
         let keyTrack = track.concat(key);
-        if (!isMergeable(source[key]) || !isMergeable(state[key]) || forceReplace(keyTrack, state[key], source[key]) === true) {
+        if (!isMergeableObject(source[key]) || !isMergeableObject(state[key]) || forceReplace(keyTrack, state[key], source[key]) === true) {
           if (!state.hasOwnProperty(key) || !is(state[key], source[key])) changes[key] = source[key];
         } else {
           if (state[key] !== source[key]) {
@@ -93,7 +121,7 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
 
     let changedObjKeys = fn(changedObjects);
     let changesKeys = fn(changes);
-    if (changesKeys.length == 0 && changedObjKeys.length == 0) return {state};
+    if (changesKeys.length == 0 && changedObjKeys.length == 0) return { state };
     else {
       Object.assign(result, state);
       changesKeys.forEach(key => {
@@ -104,7 +132,7 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
         result[key] = changedObjects[key].state;
         changes[key] = changedObjects[key].changes
       });
-      return {state: result, changes}
+      return { state: result, changes }
     }
   }
 
@@ -120,4 +148,4 @@ merge.all = function (state: any, obj2merge: any[], options: MergeOptions = {}) 
 };
 
 
-export {merge, mergeState} // react-merge
+export { merge, mergeState } // react-merge

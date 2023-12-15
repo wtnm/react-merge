@@ -10,10 +10,10 @@
 `react-merge` - function that merge 2 (or more) objects in a proper "react"-way. I.e. if second object doesn't change first then the result object is strictly equals first object.
 ```
 import merge from 'react-merge';
-let firstObject = {"a":1, "b": {"c":2, "d":3}}
-let result = merge(fisrtObject, {"a":1});
+let firstObject = { "a": 1, "b": { "c": 2, "d": 3 } }
+let result = merge(firstObject, { "a": 1 });
 console.log(result === firstObject); // true
-result = merge(fisrtObject, {"a":2, "b":{"c":2}});
+result = merge(firstObject, { "a": 2, "b": { "c": 2 } });
 console.log(result === firstObject); // false
 console.log(result.b === firstObject.b); // true
 ```
@@ -63,7 +63,7 @@ Merges `objectA` with `objectsB` array.
 import merge from 'react-merge';
 let firstObject = {"a":[0, 1, 2, 3]}
 let secondObject = {"a": {"1": 11, "length":2}};
-let result = merge(fisrtObject, secondObject);
+let result = merge(firstObject, secondObject);
 console.log(result); // {"a": [0, 11]}
 
 ```
@@ -75,7 +75,7 @@ let firstObject = {"a":[0, 1, 2, 3]}
 let secondObject = {"a": []};
 secondObject.a[2] = 22;
 secondObject.a.length = 5;
-let result = merge(fisrtObject, secondObject);
+let result = merge(firstObject, secondObject);
 console.log(result); // {"a": [0, 1, 22, 3, undefined]}
 ```
 
@@ -84,10 +84,10 @@ console.log(result); // {"a": [0, 1, 22, 3, undefined]}
 import merge from 'react-merge';
 let firstObject = {"a": 1, "b": {"c":2, "d":3}}
 let secondObject = {"a": undefined};
-let result = merge(fisrtObject, secondObject, {del:true});
+let result = merge(firstObject, secondObject, {del:true});
 console.log(result); // {"b": {"c":2, "d":3}}
 
-result = merge(fisrtObject, secondObject, {del:false});
+result = merge(firstObject, secondObject, {del:false});
 console.log(result); // {"a": undefined, "b": {"c":2, "d":3}}
 ```
 
@@ -96,7 +96,7 @@ console.log(result); // {"a": undefined, "b": {"c":2, "d":3}}
 import merge from 'react-merge';
 let firstObject = {"a": 1, "b": {"c":2, "d":3}}
 let secondObject = {"a": 1};
-let result = merge(fisrtObject, secondObject, {diff:true});
+let result = merge(firstObject, secondObject, {diff:true});
 console.log(result === firstObject); // false
 console.log(result === secondObject); // false
 console.log(result); // {"a": 1}

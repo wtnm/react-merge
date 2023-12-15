@@ -22,7 +22,14 @@
   },
   "homepage": "https://github.com/wtnm/react-merge#readme",
   "dependencies": {
-    "is-fns": "^1.2.0",
-    "objects-fns": "^2.0.0"
+    "is-mergeable-object": "^1.1.1",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.2.2",
+    "sleep-promise": "^9.1.0",
+    "ts-mocha": "^8.0.0",
+    "typescript": "^4.3.5"
   }
 }

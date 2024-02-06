@@ -54,8 +54,8 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
   let { delSymbol, del, diff, replace, arrays, path } = options;
   if (path) {
     if (isString(path)) path = (path as string).split('/');
-    source = setIn({}, path, source);
-    if (replace && !isFunction(replace)) replace = setIn({}, path, replace);
+    if (path.length) source = setIn({}, path, source);
+    if (replace && !isFunction(replace)) replace = path.length ? setIn({}, path, replace) : replace;
   }
   let forceReplace: any = replace;
   if (typeof forceReplace !== 'function') {

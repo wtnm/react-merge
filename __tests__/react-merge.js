@@ -53,4 +53,13 @@ describe('test react merge', function () {
     result = merge(result, { a: 1 }, { diff: true });
     expect(result).to.be.equal(prev);
   });
+
+  it('tests merge with path replace', () => {
+    let firstObject = { a: 1, b: { c: 2, d: 3 } };
+    let secondObject = { c: 3 };
+    let result = merge(firstObject, secondObject, { path: ['a'] });
+    expect(result.a).to.equal(secondObject);
+    result = merge(firstObject, secondObject, { path: [], replace: true });
+    expect(result).to.equal(secondObject);
+  });
 });

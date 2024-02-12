@@ -29,7 +29,7 @@ To install the stable version:
 npm install --save react-merge
 ```
 ## Usage
-```
+```jsx
 import { merge } from 'react-merge'
 ```
 
@@ -61,7 +61,7 @@ Merges `objectA` with `objectsB` array.
 ## Examples: 
 
 ##### merge array with object
-```
+```jsx
 import { merge } from 'react-merge';
 
 let firstObject = { "a": [0, 1, 2, 3] }
@@ -72,7 +72,7 @@ console.log(result); // {"a": [0, 11]}
 ```
 
 ##### default array merging
-```
+```jsx
 import { merge } from 'react-merge';
 
 let firstObject = { "a": [0, 1, 2, 3] }
@@ -84,7 +84,7 @@ console.log(result); // {"a": [0, 1, 22, 3, undefined]}
 ```
 
 ##### del options
-```
+```jsx
 import { merge } from 'react-merge';
 
 let firstObject = { "a": 1, "b": { "c": 2, "d": 3 } }
@@ -97,7 +97,7 @@ console.log(result); // {"a": undefined, "b": {"c":2, "d":3}}
 ```
 
 ##### diff options
-```
+```jsx
 import { merge } from 'react-merge';
 
 const firstObject = { "a": 1, "b": { "c": 2, "d": 3 } }

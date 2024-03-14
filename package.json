@@ -1,6 +1,6 @@
 {
   "name": "react-merge",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "function that merge 2 (or more) objects in a react-way",
   "main": "dist/index.js",
   "scripts": {

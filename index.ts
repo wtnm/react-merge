@@ -2,8 +2,8 @@ import isFunction from 'lodash/isFunction';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import getIn from 'lodash/get';
-import setIn from 'lodash/set';
 import isMergeableObject from 'is-mergeable-object';
+import isUndefined from 'lodash/isUndefined';
 
 function is(x: any, y: any) {
   // SameValue algorithm
@@ -15,6 +15,27 @@ function is(x: any, y: any) {
     // Step 6.a: NaN == NaN
     return x !== x && y !== y;
   }
+}
+
+function setIn(state: any, paths: any[], value: any) {
+  let result = state;
+  let key;
+  if (paths.length > 0) {
+    for (let i = 0; i < paths.length; i++) {
+      const path = isArray(paths[i]) ? paths[i] : [paths[i]];
+      for (let j = 0; j < path.length; j++) {
+        if (isUndefined(path[j])) continue;
+        if (!isUndefined(key)) {
+          if (!isMergeableObject(result[key])) result[key] = {};
+          result = result[key];
+        }
+        key = path[j];
+      }
+    }
+  }
+  if (!isUndefined(key)) result[key] = value;
+  else return value;
+  return state;
 }
 
 export type anyObject = {
@@ -55,7 +76,7 @@ function mergeState(state: any, source: any, options: MergeOptions = {}): MergeS
   if (path) {
     if (isString(path)) path = (path as string).split('/');
     if (path.length) source = setIn({}, path, source);
-    if (replace && !isFunction(replace)) replace = path.length ? setIn({}, path, replace) : replace;
+    if (replace && !isFunction(replace)) replace = setIn({}, path, replace);
   }
   let forceReplace: any = replace;
   if (typeof forceReplace !== 'function') {
